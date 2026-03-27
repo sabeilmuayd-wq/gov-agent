@@ -1,0 +1,67 @@
+```python
+import re
+import json
+import os
+
+class IntentRecognizer:
+    """فهم نية المستخدم بدون الاعتماد على الإنترنت"""
+    
+    def __init__(self):
+        self.intents = {
+            "tax": {
+                "keywords": ["ضريبة", "ضرائب", "tax", "taxes", "إقرار", "declaration"],
+                "response": "أبحث عن مواعيد الضرائب...",
+                "action": "get_tax_info"
+            },
+            "license": {
+                "keywords": ["رخصة", "license", "قيادة", "driving", "سيارة", "car"],
+                "response": "أبحث عن رخصتك...",
+                "action": "get_license_info"
+            },
+            "health": {
+                "keywords": ["صحي", "health", "مستشفى", "hospital", "مركز صحي", "clinic", "دواء", "medicine"],
+                "response": "أبحث عن مراكز صحية قريبة...",
+                "action": "get_health_info"
+            },
+            "education": {
+                "keywords": ["مدرسة", "school", "تعليم", "education", "جامعة", "university", "منحة", "scholarship"],
+                "response": "أبحث عن معلومات تعليمية...",
+                "action": "get_education_info"
+            },
+            "passport": {
+                "keywords": ["جواز", "passport", "سفر", "travel", "تأشيرة", "visa"],
+                "response": "أبحث عن معلومات جواز السفر...",
+                "action": "get_passport_info"
+            },
+            "water": {
+                "keywords": ["ماء", "water", "مياه", "صنبور", "tap"],
+                "response": "أبحث عن معلومات المياه...",
+                "action": "get_water_info"
+            },
+            "electricity": {
+                "keywords": ["كهرباء", "electricity", "ضوء", "light", "فاتورة", "bill"],
+                "response": "أبحث عن معلومات الكهرباء...",
+                "action": "get_electricity_info"
+            },
+            "help": {
+                "keywords": ["مساعدة", "help", "ماذا تفعل", "what can you do", "قدراتك", "capabilities"],
+                "response": "أستطيع مساعدتك في: الضرائب، الرخص، الصحة، التعليم، جواز السفر، المياه، الكهرباء. فقط أخبرني ماذا تريد.",
+                "action": "show_help"
+            }
+        }
+    
+    def recognize(self, text):
+        """تحديد نية المستخدم من النص"""
+        text_lower = text.lower()
+        
+        for intent, data in self.intents.items():
+            for keyword in data["keywords"]:
+                if keyword in text_lower:
+                    return intent, data["response"], data["action"]
+        
+        return "unknown", "لم أفهم طلبك. هل يمكنك التوضيح؟", "unknown"
+    
+    def get_all_intents(self):
+        """إرجاع قائمة بكل النوايا المتاحة"""
+        return list(self.intents.keys())
+```
